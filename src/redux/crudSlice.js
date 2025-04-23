@@ -13,12 +13,20 @@ const crudSlice = createSlice({
         deleteUser:(state,userdetails)=>{
             state.users = state.users.filter(user=>user.id !== userdetails.payload)
 
-        }
+        },
+        editUser: (state, edit) => {
+            const { id, name, email } = edit.payload;
+            const index = state.users.findIndex(user => user.id === id);
+            if (index !== -1) {
+              state.users[index] = { id, name, email };
+            }
+          }
+          
 
 
     }
 
 })
 
-export const {addUser,deleteUser} = crudSlice.actions
+export const {addUser,deleteUser,editUser} = crudSlice.actions
 export default crudSlice.reducer

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUser, deleteUser } from '../redux/crudSlice'
+import { addUser, deleteUser,editUser } from '../redux/crudSlice'
 
 
 const Home = () => {
@@ -11,13 +11,23 @@ const Home = () => {
   const dispatch = useDispatch()
 
   const [data, setData] = useState({name:"",email:''})
+
+  const [isEdit, setIsEdit] = useState(false);
+  const [editId, setEditId] = useState(null);
+
   console.log("data",data);
 
   const handlesubmit =(e)=>{
     e.preventDefault();
     if(data.name && data.email){
-      dispatch(addUser(data))
-      setData({name:"",email:""})
+      if (isEdit) {
+        dispatch(editUser({ id: editId, ...data }));
+        setIsEdit(false);
+        setEditId(null);
+      } else {
+        dispatch(addUser(data));
+      }
+      setData({ name: "", email: "" });
     }
   }
   
@@ -54,7 +64,7 @@ const Home = () => {
           </Col>
           <Col md={2} className="d-flex align-items-end">
             <Button type="submit" className="w-100">
-                Add
+            {isEdit ? "Update" : "Add"}
             </Button>
           </Col>
         </Row>
@@ -85,6 +95,11 @@ const Home = () => {
                   variant="warning"
                   size="sm"
                   className="me-2"
+                  onClick={() => {
+                    setData({ name: user.name, email: user.email });
+                    setIsEdit(true);
+                    setEditId(user.id);
+                  }}
                 >
                   Edit
                 </Button>
