@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { addUser } from '../redux/crudSlice'
+import { addUser, deleteUser } from '../redux/crudSlice'
 
 
 const Home = () => {
@@ -91,6 +91,7 @@ const Home = () => {
                 <Button
                   variant="danger"
                   size="sm"
+                  onClick={()=>dispatch(deleteUser(user.id))}
                 >
                   Delete
                 </Button>
