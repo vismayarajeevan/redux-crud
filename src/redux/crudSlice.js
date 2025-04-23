@@ -15,5 +15,5 @@ const crudSlice = createSlice({
 
 })
 
-export const {addUser} = createSlice.actions
+export const {addUser} = crudSlice.actions
 export default crudSlice.reducer
